@@ -1,0 +1,19 @@
+{
+  "name": "bh24-bot",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MukhammedIsmailov/bh24-bot.git"
+  },
+  "author": "Mukhammed Ismailov <misterrevi4@gmail.com>",
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.3",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.4"
+  }
+}
