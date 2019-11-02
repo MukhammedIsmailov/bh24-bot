@@ -16,6 +16,9 @@ export class Config {
     getConfig() {
         return {
             telegramToken: process.env.TELEGRAM_TOKEN,
+            viberToken: process.env.VIBER_TOKEN,
+            viberBotName: process.env.VIBER_BOT_NAME,
+            viberBotAvatar: process.env.VIBER_BOT_AVATAR,
         }
     }
 }

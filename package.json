@@ -12,7 +12,8 @@
   "author": "Mukhammed Ismailov <misterrevi4@gmail.com>",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "node-telegram-bot-api": "^0.40.0"
+    "node-telegram-bot-api": "^0.40.0",
+    "viber-bot": "^1.0.14"
   },
   "devDependencies": {
     "@types/node": "^12.12.3",
