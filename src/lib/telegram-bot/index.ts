@@ -1,10 +1,11 @@
 import * as TelegramBot from 'node-telegram-bot-api';
-import { writeFileSync } from 'fs';
 import { Stream } from 'stream';
 
 import { getConfig } from '../../config';
 import { IChat } from './DTO/IChat';
 import { ILocation} from './DTO/ILocation';
+
+import axios from 'axios';
 
 export function botConfig(): TelegramBot {
     const token = getConfig().telegramToken;
@@ -12,9 +13,19 @@ export function botConfig(): TelegramBot {
 }
 
 export function start (bot: TelegramBot): void {
-    bot.onText(/\/start/, (msg) => {
-        const chat: IChat = { id: msg.chat.id }
-        writeFileSync('C:/git/bh24-bot/chatid.json', JSON.stringify(chat));
+    bot.onText(/\/start/, async (msg) => {
+        const chat: IChat = { id: msg.chat.id };
+
+        const data ={
+            referId: msg.text.replace('/start ', ''),
+            type: 1,
+            messengerInfo: {
+                messenger: 'telegram',
+                info: JSON.stringify(chat)
+            }
+        };
+
+        await axios.put('http://localhost:3000/api/lead', data);
     });
 }
 
