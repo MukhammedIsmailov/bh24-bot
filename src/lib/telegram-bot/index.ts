@@ -47,5 +47,5 @@ export async function sendVideo(bot: TelegramBot, chat: IChat, message: Buffer |
 }
 
 export async function sendLocation(bot: TelegramBot, chat: IChat, message: ILocation): Promise<void> {
-    await bot.sendVideo(chat.id, message.latitude, message.longitude);
+    await bot.sendLocation(chat.id, message.latitude, message.longitude);
 }
