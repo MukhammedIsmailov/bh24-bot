@@ -17,6 +17,7 @@ export class Config {
         return {
             telegramToken: process.env.TELEGRAM_TOKEN,
             facebookToken: process.env.FACEBOOK_TOKEN,
+            appPort: process.env.APP_PORT,
         }
     }
 }
