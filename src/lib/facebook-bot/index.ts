@@ -5,3 +5,4 @@ import { getConfig } from '../../config';
 export function botConfig() {
     return new FacebookBot(getConfig().facebookToken);
 }
+
