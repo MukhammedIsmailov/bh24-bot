@@ -16,6 +16,7 @@ export class Config {
     getConfig() {
         return {
             telegramToken: process.env.TELEGRAM_TOKEN,
+            facebookToken: process.env.FACEBOOK_TOKEN,
         }
     }
 }

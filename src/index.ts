@@ -1,9 +1,3 @@
-import { botConfig, start } from './lib/telegram-bot';
-import { readFileSync } from 'fs';
+import { botConfig } from './lib/facebook-bot';
 
-const bot = botConfig();
-
-const chatIdFromFile: string = readFileSync('C:/git/bh24-bot/chatid.json', 'utf8');
-const chat = JSON.parse(chatIdFromFile);
-
-start(bot);
+console.log(botConfig());

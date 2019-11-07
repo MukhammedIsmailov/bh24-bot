@@ -59,3 +59,5 @@ AQIDAQAB
 token: 1037718943:AAHWaVK-qOtSBSo7rbEFGYlDja4tzsvYW70
 name: bh24-test
 username: behappy_test_bot
+
+token: mELtlMAHYqR0BvgEiMq8zVek3uYUK3OJMbtyrdNPTrQB9ndV0fM7lWTFZbM4MZvD
