@@ -1,34 +1,41 @@
 import * as TelegramBot from 'node-telegram-bot-api';
-import {Stream} from 'stream';
-import {readFileSync} from 'fs';
-import {join} from 'path';
+import { Stream } from 'stream';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
-import {getConfig} from '../../config';
-import {IChat} from './DTO/IChat';
-import {ILocation} from './DTO/ILocation';
-import {IMessage, Type} from '../../lesson/DTO/IMessage';
+import { getConfig } from '../../config';
+import { getData } from '../../../data';
+import { IChat } from './DTO/IChat';
+import { ILocation } from './DTO/ILocation';
+import { IMessage, Type } from '../../lesson/DTO/IMessage';
 
 import axios from 'axios';
 
+const config = getConfig();
+
 export function botConfig(): TelegramBot {
-    const token = getConfig().telegramToken;
+    const token = config.telegramToken;
     return new TelegramBot(token, { polling: true });
 }
 
 export function start (bot: TelegramBot): void {
     bot.onText(/\/start/, async (msg) => {
-        const chat: IChat = { id: msg.chat.id };
-
+        const chat: IChat = msg.chat;
         const data = {
             referId: msg.text.replace('/start ', ''),
             type: 1,
             messengerInfo: {
                 messenger: 'telegram',
-                info: JSON.stringify(chat)
+                info: JSON.stringify(chat),
+                step: 1,
             }
         };
 
-        await axios.put('http://localhost:3000/api/lead', data);
+        getData()[0].messages.forEach((message: IMessage) => {
+            sendMessage(bot, chat, message);
+        });
+
+        axios.put(`${config.adminServiceBaseUrl}/api/lead`, data);
     });
 }
 
@@ -50,7 +57,7 @@ export async function sendMessage(bot: TelegramBot, chat: IChat, message: IMessa
 }
 
 async function sendText(bot: TelegramBot, chat: IChat, message: string): Promise<void> {
-   await bot.sendMessage(chat.id, message);
+    await bot.sendMessage(chat.id, message.replace('/name/', chat.first_name));
 }
 
 async function sendPhoto(bot: TelegramBot, chat: IChat, message: Buffer | Stream | string): Promise<void> {
