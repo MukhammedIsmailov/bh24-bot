@@ -31,6 +31,7 @@ const port = getConfig().appPort;
 
 const routes = new Router();
 routes.get('/facebook', verifyWebhook);
+app.use(routes.routes()).use(routes.allowedMethods());
 
 app.use(bodyParser());
 
@@ -38,10 +39,10 @@ app.listen(port, () => {
     console.log(port);
 });
 
-import { getCronJobForNewsletter } from './lib/cron';
-import { botConfig, start } from './lib/telegram-bot';
-
-const bot = botConfig();
-
-start(bot);
-getCronJobForNewsletter(bot).start();
+// import { getCronJobForNewsletter } from './lib/cron';
+// import { botConfig, start } from './lib/telegram-bot';
+//
+// const bot = botConfig();
+//
+// start(bot);
+// getCronJobForNewsletter(bot).start();
