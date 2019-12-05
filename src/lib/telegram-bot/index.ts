@@ -20,16 +20,18 @@ export function botConfig(): TelegramBot {
 
 export function start (bot: TelegramBot): void {
     bot.onText(/\/start/, async (msg) => {
+        const queryParams = msg.text.replace('/start ', '').split('_AND_');
         const chat: IChat = msg.chat;
         const data = {
-            referId: msg.text.replace('/start ', ''),
+            referId: queryParams[0],
+            country: queryParams[1],
             messengerInfo: {
                 messenger: 'telegram',
                 info: JSON.stringify( { id: chat.id }),
                 step: 1,
                 first_name: chat.first_name,
                 second_name: chat.last_name,
-                username: chat.username
+                username: chat.username,
             }
         };
 
