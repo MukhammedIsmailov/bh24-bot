@@ -23,11 +23,13 @@ export function start (bot: TelegramBot): void {
         const chat: IChat = msg.chat;
         const data = {
             referId: msg.text.replace('/start ', ''),
-            type: 1,
             messengerInfo: {
                 messenger: 'telegram',
-                info: JSON.stringify(chat),
+                info: JSON.stringify( { id: chat.id }),
                 step: 1,
+                first_name: chat.first_name,
+                second_name: chat.last_name,
+                username: chat.username
             }
         };
 
