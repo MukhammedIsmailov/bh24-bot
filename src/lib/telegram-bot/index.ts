@@ -35,11 +35,12 @@ export function start (bot: TelegramBot): void {
             }
         };
 
-        getData()[0].messages.forEach((message: IMessage) => {
-            sendMessage(bot, chat, message);
+        getData()[0].messages.forEach(async (message: IMessage) => {
+            await sendMessage(bot, chat, message);
         });
 
-        axios.put(`${config.adminServiceBaseUrl}/api/lead`, data);
+        const lead: any = await axios.put(`${config.adminServiceBaseUrl}/api/lead`, data);
+        await axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: lead.data.id, step: 1 });
     });
 }
 
