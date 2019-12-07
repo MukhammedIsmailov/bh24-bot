@@ -18,7 +18,8 @@ export function getCronJobForNewsletter (bot: TelegramBot): CronJob {
         const data = getData();
         for (const leadInfo of responseData) {
             const step = leadInfo.step;
-            if(!!leadInfo.telegram_info && leadInfo.telegram_info.length > 0 && step <= data.length) {
+            if(!!leadInfo.telegram_info && leadInfo.telegram_info.length > 0 && step < data.length) {
+                console.log('check')
                 const chat: IChat = JSON.parse(leadInfo.telegram_info);
                 for (const message of data[step].messages) {
                     sendMessage(bot, chat, message as IMessage);
@@ -28,6 +29,10 @@ export function getCronJobForNewsletter (bot: TelegramBot): CronJob {
                     });
                     const options = { headers: { 'Content-Type': 'application/json', }};
                     axios.post(`${config.adminServiceBaseUrl}/api/lead/messenger`, data, options);
+                }
+                if(step === 3) {
+                    console.log('finished')
+                    axios.put(`${config.adminServiceBaseUrl}/api/event/course-finished`, { userId: leadInfo.user_id });
                 }
             }
         }

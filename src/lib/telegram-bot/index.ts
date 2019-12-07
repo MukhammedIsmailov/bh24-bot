@@ -27,7 +27,7 @@ export function start (bot: TelegramBot): void {
             country: queryParams[1],
             messengerInfo: {
                 messenger: 'telegram',
-                info: JSON.stringify( { id: chat.id }),
+                info: JSON.stringify( { id: chat.id, first_name: !!chat.first_name ? chat.first_name : 'Уважаемый' }),
                 step: 1,
                 first_name: chat.first_name,
                 second_name: chat.last_name,
