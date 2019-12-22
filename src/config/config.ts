@@ -18,7 +18,8 @@ export class Config {
             telegramToken: process.env.TELEGRAM_TOKEN,
             facebookToken: process.env.FACEBOOK_TOKEN,
             appPort: process.env.APP_PORT,
-            adminServiceBaseUrl: process.env.ADMIN_SERVICE_BASE_URL
+            adminServiceBaseUrl: process.env.ADMIN_SERVICE_BASE_URL,
+            lessonsPageUrl :process.env.LESSONS_PAGE_URL,
         }
     }
 }

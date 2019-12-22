@@ -1,13 +1,13 @@
-import { CronJob } from 'cron';
+import {CronJob} from 'cron';
 import axios from 'axios';
 import * as TelegramBot from 'node-telegram-bot-api';
 
-import { getConfig } from '../../config';
-import { ILeadMessengerResponse } from './DTO/ILeadMessengerResponse';
-import { sendMessage } from '../telegram-bot';
-import { IChat } from '../telegram-bot/DTO/IChat';
-import { getData } from '../../../data';
-import { IMessage } from '../../lesson/DTO/IMessage';
+import {getConfig} from '../../config';
+import {ILeadMessengerResponse} from './DTO/ILeadMessengerResponse';
+import {sendMessage} from '../telegram-bot';
+import {IChat} from '../telegram-bot/DTO/IChat';
+import {getData} from '../../../data';
+import {IMessage, Type} from '../../lesson/DTO/IMessage';
 
 const config = getConfig();
 
@@ -21,6 +21,10 @@ export function getCronJobForNewsletter (bot: TelegramBot): CronJob {
             if(!!leadInfo.telegram_info && leadInfo.telegram_info.length > 0 && step < data.length) {
                 const chat: IChat = JSON.parse(leadInfo.telegram_info);
                 for (const message of data[step].messages) {
+                    if (message.type === Type.Text) {
+                        message.message = message.message =
+                            `\n ${config.lessonsPageUrl}?userId=${leadInfo.user_id}&lessonId=${step}`;
+                    }
                     sendMessage(bot, chat, message as IMessage);
                 }
 
