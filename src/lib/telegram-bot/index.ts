@@ -37,21 +37,21 @@ export function start (bot: TelegramBot): void {
 
         const lead: any = await axios.put(`${config.adminServiceBaseUrl}/api/lead`, data);
         getData()[0].messages.forEach(async (message: IMessage) => {
+            let url = null;
             if (message.type === Type.Text) {
-                message.message = message.message +
-                    `\n ${config.lessonsPageUrl}?userId=${lead.data.id}&lessonId=1`;
+                url = `${config.lessonsPageUrl}?userId=${lead.data.id}&lessonId=1`;
             }
-            await sendMessage(bot, chat, message);
+            await sendMessage(bot, chat, message, url);
         });
         await axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: lead.data.id, step: 1 });
     });
 }
 
-export async function sendMessage(bot: TelegramBot, chat: IChat, message: IMessage): Promise<void> {
+export async function sendMessage(bot: TelegramBot, chat: IChat, message: IMessage, url?: string): Promise<void> {
     const type: Type = message.type;
     switch (type) {
         case Type.Text:
-            sendText(bot, chat, message.message);
+            sendText(bot, chat, message.message + '\n' + !!url ? url : '');
             break;
 
         case Type.Image:
