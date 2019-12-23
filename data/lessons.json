@@ -5,6 +5,9 @@
       {
         "type": "text",
         "message": "/name/, как вы считаете, почему спустя столько лет вы все еще не пришли к финансовой свободе? (Сообщение #1)"
+      },      {
+        "type": "image",
+        "message": "/data/lesson-1/photo.jpg"
       }
     ]
   },
@@ -14,6 +17,9 @@
       {
         "type": "text",
         "message": "/name/, как вы считаете, почему спустя столько лет вы все еще не пришли к финансовой свободе? (Сообщение #2)"
+      },      {
+        "type": "image",
+        "message": "/data/lesson-2/photo.jpg"
       }
     ]
   },
@@ -23,6 +29,9 @@
       {
         "type": "text",
         "message": "Какой вид заработка выбрать? (Сообщение #3)"
+      },      {
+        "type": "image",
+        "message": "/data/lesson-3/photo.jpg"
       }
     ]
   },
@@ -32,6 +41,9 @@
       {
         "type": "text",
         "message": "Какой вид заработка выбрать? (Сообщение 4)"
+      },      {
+        "type": "image",
+        "message": "/data/lesson-4/photo.jpg"
       }
     ]
   }

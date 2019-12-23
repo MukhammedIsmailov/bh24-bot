@@ -24,9 +24,8 @@ export function getCronJobForNewsletter (bot: TelegramBot): CronJob {
                 for (const message of data[step].messages) {
                     if (message.type === Type.Text) {
                         url = `${config.lessonsPageUrl}?userId=${leadInfo.user_id}&lessonId=${step+1}`;
-                    } else {
-                        sendMessage(bot, chat, message as IMessage, url);
                     }
+                    sendMessage(bot, chat, message as IMessage, url);
                 }
 
                 axios.post(`${config.adminServiceBaseUrl}/api/lead/messenger`, { id: leadInfo.user_id, step: step + 1});
