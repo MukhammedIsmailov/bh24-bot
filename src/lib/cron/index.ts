@@ -22,13 +22,13 @@ export function getCronJobForNewsletter (bot: TelegramBot): CronJob {
                 const chat: IChat = JSON.parse(leadInfo.telegram_info);
                 for (const message of data[step].messages) {
                     if (message.type === Type.Text) {
-                        message.message = message.message =
-                            `\n ${config.lessonsPageUrl}?userId=${leadInfo.user_id}&lessonId=${step}`;
+                        message.message = message.message +
+                            `\n ${config.lessonsPageUrl}?userId=${leadInfo.user_id}&lessonId=${step+1}`;
                     }
                     sendMessage(bot, chat, message as IMessage);
                 }
 
-                axios.post(`${config.adminServiceBaseUrl}/api/lead/messenger`, { id: leadInfo.id, step: step + 1});
+                axios.post(`${config.adminServiceBaseUrl}/api/lead/messenger`, { id: leadInfo.user_id, step: step + 1});
                 axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: leadInfo.user_id, step: step + 1 });
                 if(step === 3) {
                     axios.put(`${config.adminServiceBaseUrl}/api/event/course-finished`, { userId: leadInfo.user_id });

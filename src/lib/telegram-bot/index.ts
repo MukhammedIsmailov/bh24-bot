@@ -1,13 +1,13 @@
 import * as TelegramBot from 'node-telegram-bot-api';
-import { Stream } from 'stream';
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import {Stream} from 'stream';
+import {readFileSync} from 'fs';
+import {join} from 'path';
 
-import { getConfig } from '../../config';
-import { getData } from '../../../data';
-import { IChat } from './DTO/IChat';
-import { ILocation } from './DTO/ILocation';
-import { IMessage, Type } from '../../lesson/DTO/IMessage';
+import {getConfig} from '../../config';
+import {getData} from '../../../data';
+import {IChat} from './DTO/IChat';
+import {ILocation} from './DTO/ILocation';
+import {IMessage, Type} from '../../lesson/DTO/IMessage';
 
 import axios from 'axios';
 
@@ -35,11 +35,14 @@ export function start (bot: TelegramBot): void {
             }
         };
 
+        const lead: any = await axios.put(`${config.adminServiceBaseUrl}/api/lead`, data);
         getData()[0].messages.forEach(async (message: IMessage) => {
+            if (message.type === Type.Text) {
+                message.message = message.message +
+                    `\n ${config.lessonsPageUrl}?userId=${lead.data.id}&lessonId=1`;
+            }
             await sendMessage(bot, chat, message);
         });
-
-        const lead: any = await axios.put(`${config.adminServiceBaseUrl}/api/lead`, data);
         await axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: lead.data.id, step: 1 });
     });
 }
