@@ -51,7 +51,7 @@ export async function sendMessage(bot: TelegramBot, chat: IChat, message: IMessa
     const type: Type = message.type;
     switch (type) {
         case Type.Text:
-            sendText(bot, chat, message.message + '\n' + !!url ? url : '');
+            sendText(bot, chat, message.message, url);
             break;
 
         case Type.Image:
@@ -64,8 +64,9 @@ export async function sendMessage(bot: TelegramBot, chat: IChat, message: IMessa
     }
 }
 
-async function sendText(bot: TelegramBot, chat: IChat, message: string): Promise<void> {
-    await bot.sendMessage(chat.id, message.replace('/name/', chat.first_name));
+async function sendText(bot: TelegramBot, chat: IChat, message: string, url?: string): Promise<void> {
+    console.log(message, url)
+    await bot.sendMessage(chat.id, message.replace('/name/', chat.first_name) + '\n' +  url);
 }
 
 async function sendPhoto(bot: TelegramBot, chat: IChat, message: Buffer | Stream | string): Promise<void> {
