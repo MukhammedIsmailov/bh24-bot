@@ -37,23 +37,24 @@ export function start (bot: TelegramBot): void {
 
         const lead: any = await axios.put(`${config.adminServiceBaseUrl}/api/lead`, data);
         getData()[0].messages.forEach(async (message: IMessage) => {
+            let url = null;
             if (message.type === Type.Text) {
-                message.message = message.message +
-                    `\n ${config.lessonsPageUrl}?userId=${lead.data.id}&lessonId=1`;
+                url = `${config.lessonsPageUrl}?userId=${lead.data.id}&lessonId=1`;
             }
-            await sendMessage(bot, chat, message);
+            await sendMessage(bot, chat, message, url);
         });
         await axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: lead.data.id, step: 1 });
     });
 }
 
-export async function sendMessage(bot: TelegramBot, chat: IChat, message: IMessage): Promise<void> {
+export async function sendMessage(bot: TelegramBot, chat: IChat, message: IMessage, url?: string): Promise<void> {
     const type: Type = message.type;
     switch (type) {
         case Type.Text:
-            sendText(bot, chat, message.message);
+            setTimeout(() => {
+                sendMessageWithButton(bot, chat, message.message, url);
+            }, 2000);
             break;
-
         case Type.Image:
             await sendPhoto(bot, chat, readFileSync(join(__dirname, '../../../',  message.message)));
             break;
@@ -64,8 +65,8 @@ export async function sendMessage(bot: TelegramBot, chat: IChat, message: IMessa
     }
 }
 
-async function sendText(bot: TelegramBot, chat: IChat, message: string): Promise<void> {
-    await bot.sendMessage(chat.id, message.replace('/name/', chat.first_name));
+async function sendText(bot: TelegramBot, chat: IChat, message: string, url?: string): Promise<void> {
+    await bot.sendMessage(chat.id, message.replace('/name/', chat.first_name) + '\n' +  url);
 }
 
 async function sendPhoto(bot: TelegramBot, chat: IChat, message: Buffer | Stream | string): Promise<void> {
@@ -94,4 +95,16 @@ async function sendVideo(bot: TelegramBot, chat: IChat, message: Buffer | Stream
 
 async function sendLocation(bot: TelegramBot, chat: IChat, message: ILocation): Promise<void> {
     await bot.sendLocation(chat.id, message.latitude, message.longitude);
+}
+
+async function sendMessageWithButton(bot: TelegramBot, chat: IChat, message: string, url?: string): Promise<void> {
+    const options = {
+        reply_markup: JSON.stringify({
+            inline_keyboard: [
+                [{ text: 'Смотреть видео', url: url }],
+            ]
+        })
+    };
+
+    await bot.sendMessage(chat.id, message.replace('/name/', chat.first_name), options);
 }
