@@ -52,7 +52,7 @@ export async function sendMessage(bot: TelegramBot, chat: IChat, message: IMessa
     switch (type) {
         case Type.Text:
             setTimeout(() => {
-                sendText(bot, chat, message.message, url);
+                sendMessageWithButton(bot, chat, message.message, url);
             }, 2000);
             break;
         case Type.Image:
@@ -95,4 +95,16 @@ async function sendVideo(bot: TelegramBot, chat: IChat, message: Buffer | Stream
 
 async function sendLocation(bot: TelegramBot, chat: IChat, message: ILocation): Promise<void> {
     await bot.sendLocation(chat.id, message.latitude, message.longitude);
+}
+
+async function sendMessageWithButton(bot: TelegramBot, chat: IChat, message: string, url?: string): Promise<void> {
+    const options = {
+        reply_markup: JSON.stringify({
+            inline_keyboard: [
+                [{ text: 'Смотреть видео', url: url }],
+            ]
+        })
+    };
+
+    await bot.sendMessage(chat.id, message.replace('/name/', chat.first_name), options);
 }
