@@ -14,7 +14,8 @@ const config = getConfig();
 
 export function getCronJobForNewsletter (bot: TelegramBot): CronJob {
     return new CronJob('*/1 * * * *', async () => {
-        const response = await axios.get(`${config.adminServiceBaseUrl}/api/lead/messenger/all?interval=1%20hour`);
+        const response = await axios.get(`${config.adminServiceBaseUrl}/api/lead/messenger/all?interval=1%20hour`, {
+            httpsAgent: new Agent({ rejectUnauthorized: false })});
         const responseData = <Array<ILeadMessengerResponse>>response.data;
         const data = getData();
         for (const leadInfo of responseData) {
