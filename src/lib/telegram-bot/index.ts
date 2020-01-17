@@ -9,6 +9,8 @@ import {IChat} from './DTO/IChat';
 import {ILocation} from './DTO/ILocation';
 import {IMessage, Type} from '../../lesson/DTO/IMessage';
 
+import { Agent } from 'https';
+
 import axios from 'axios';
 
 const config = getConfig();
@@ -35,7 +37,10 @@ export function start (bot: TelegramBot): void {
             }
         };
 
-        const lead: any = await axios.put(`${config.adminServiceBaseUrl}/api/lead`, data);
+        const lead: any = await axios.put(`${config.adminServiceBaseUrl}/api/lead`, data, {
+            httpsAgent: new Agent({ rejectUnauthorized: false }),
+        });
+
         getData()[0].messages.forEach(async (message: IMessage) => {
             let url = null;
             if (message.type === Type.Text) {
@@ -43,7 +48,9 @@ export function start (bot: TelegramBot): void {
             }
             await sendMessage(bot, chat, message, url);
         });
-        await axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: lead.data.id, step: 1 });
+        await axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: lead.data.id, step: 1 }, {
+            httpsAgent: new Agent({ rejectUnauthorized: false }),
+        });
     });
 }
 

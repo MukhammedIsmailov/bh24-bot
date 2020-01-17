@@ -8,6 +8,7 @@ import {sendMessage} from '../telegram-bot';
 import {IChat} from '../telegram-bot/DTO/IChat';
 import {getData} from '../../../data';
 import {IMessage, Type} from '../../lesson/DTO/IMessage';
+import {Agent} from "https";
 
 const config = getConfig();
 
@@ -28,10 +29,16 @@ export function getCronJobForNewsletter (bot: TelegramBot): CronJob {
                     sendMessage(bot, chat, message as IMessage, url);
                 }
 
-                axios.post(`${config.adminServiceBaseUrl}/api/lead/messenger`, { id: leadInfo.user_id, step: step + 1});
-                axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: leadInfo.user_id, step: step + 1 });
+                axios.post(`${config.adminServiceBaseUrl}/api/lead/messenger`, { id: leadInfo.user_id, step: step + 1}, {
+                    httpsAgent: new Agent({ rejectUnauthorized: false }),
+                });
+                axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: leadInfo.user_id, step: step + 1 }, {
+                    httpsAgent: new Agent({ rejectUnauthorized: false }),
+                });
                 if(step === 3) {
-                    axios.put(`${config.adminServiceBaseUrl}/api/event/course-finished`, { userId: leadInfo.user_id });
+                    axios.put(`${config.adminServiceBaseUrl}/api/event/course-finished`, { userId: leadInfo.user_id }, {
+                        httpsAgent: new Agent({ rejectUnauthorized: false }),
+                    });
                 }
             }
         }
