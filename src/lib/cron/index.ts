@@ -14,8 +14,9 @@ const config = getConfig();
 
 export function getCronJobForNewsletter (bot: TelegramBot): CronJob {
     return new CronJob('*/1 * * * *', async () => {
-        const response = await axios.get(`${config.adminServiceBaseUrl}/api/lead/messenger/all?interval=1%20hour`, {
-            httpsAgent: new Agent({ rejectUnauthorized: false })});
+        const response = await axios.get(`${config.adminServiceBaseUrl}/api/lead/messenger/all?interval=1%20hour`,
+            //{httpsAgent: new Agent({ rejectUnauthorized: false })}
+            );
         const responseData = <Array<ILeadMessengerResponse>>response.data;
         const data = getData();
         for (const leadInfo of responseData) {
@@ -30,16 +31,20 @@ export function getCronJobForNewsletter (bot: TelegramBot): CronJob {
                     sendMessage(bot, chat, message as IMessage, url);
                 }
 
-                axios.post(`${config.adminServiceBaseUrl}/api/lead/messenger`, { id: leadInfo.user_id, step: step + 1}, {
-                    httpsAgent: new Agent({ rejectUnauthorized: false }),
-                });
-                axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: leadInfo.user_id, step: step + 1 }, {
-                    httpsAgent: new Agent({ rejectUnauthorized: false }),
-                });
-                if(step === 3) {
-                    axios.put(`${config.adminServiceBaseUrl}/api/event/course-finished`, { userId: leadInfo.user_id }, {
-                        httpsAgent: new Agent({ rejectUnauthorized: false }),
-                    });
+                axios.post(`${config.adminServiceBaseUrl}/api/lead/messenger`, { id: leadInfo.user_id, step: step + 1},
+                    // {httpsAgent: new Agent({ rejectUnauthorized: false })}
+                );
+                axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: leadInfo.user_id, step: step + 1 },
+                //     {
+                //     httpsAgent: new Agent({ rejectUnauthorized: false }),
+                // }
+                );
+                if(step === 4) {
+                    axios.put(`${config.adminServiceBaseUrl}/api/event/course-finished`, { userId: leadInfo.user_id },
+                    //     {
+                    //     httpsAgent: new Agent({ rejectUnauthorized: false })
+                    // }
+                    );
                 }
             }
         }

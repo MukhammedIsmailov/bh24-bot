@@ -37,9 +37,12 @@ export function start (bot: TelegramBot): void {
             }
         };
 
-        const lead: any = await axios.put(`${config.adminServiceBaseUrl}/api/lead`, data, {
-            httpsAgent: new Agent({ rejectUnauthorized: false }),
-        });
+        const lead: any = await axios.put(`${config.adminServiceBaseUrl}/api/lead`, data,
+        //     {
+        //     httpsAgent: new Agent({ rejectUnauthorized: false }
+        //     ),
+        // }
+        );
 
         getData()[0].messages.forEach(async (message: IMessage) => {
             let url = null;
@@ -48,9 +51,12 @@ export function start (bot: TelegramBot): void {
             }
             await sendMessage(bot, chat, message, url);
         });
-        await axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: lead.data.id, step: 1 }, {
-            httpsAgent: new Agent({ rejectUnauthorized: false }),
-        });
+        await axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: lead.data.id, step: 1 },
+            // {
+        //     httpsAgent: new Agent({ rejectUnauthorized: false }
+        //     )
+        // }
+        );
     });
 }
 
