@@ -4,10 +4,7 @@
     "messages": [
       {
         "type": "text",
-        "message": "/name/, как вы считаете, почему спустя столько лет вы все еще не пришли к финансовой свободе? (Сообщение #1)"
-      },      {
-        "type": "image",
-        "message": "/data/lesson-1/photo.jpg"
+        "message": "/name/ (Сообщение #1). Сообщение для тестирование системы gohappy"
       }
     ]
   },
@@ -16,10 +13,7 @@
     "messages": [
       {
         "type": "text",
-        "message": "/name/, как вы считаете, почему спустя столько лет вы все еще не пришли к финансовой свободе? (Сообщение #2)"
-      },      {
-        "type": "image",
-        "message": "/data/lesson-2/photo.jpg"
+        "message": "/name/ (Сообщение #2). Сообщение для тестирование системы gohappy"
       }
     ]
   },
@@ -28,10 +22,7 @@
     "messages": [
       {
         "type": "text",
-        "message": "Какой вид заработка выбрать? (Сообщение #3)"
-      },      {
-        "type": "image",
-        "message": "/data/lesson-3/photo.jpg"
+        "message": "/name/ (Сообщение #3). Сообщение для тестирование системы gohappy"
       }
     ]
   },
@@ -40,10 +31,16 @@
     "messages": [
       {
         "type": "text",
-        "message": "Какой вид заработка выбрать? (Сообщение 4)"
-      },      {
-        "type": "image",
-        "message": "/data/lesson-4/photo.jpg"
+        "message": "/name/ (Сообщение #4). Сообщение для тестирование системы gohappy"
+      }
+    ]
+  },
+  {
+    "lesson": 5,
+    "messages": [
+      {
+        "type": "text",
+        "message": "/name/ (Сообщение #5). Сообщение для тестирование системы gohappy"
       }
     ]
   }
