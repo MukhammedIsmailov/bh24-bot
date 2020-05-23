@@ -37,6 +37,7 @@ export function start (bot: TelegramBot): void {
             }
         };
 
+        console.log(`PUT: /api/lead, ${JSON.stringify(data)}`);
         const lead: any = await axios.put(`${config.adminServiceBaseUrl}/api/lead`, data,
         //     {
         //     httpsAgent: new Agent({ rejectUnauthorized: false }
@@ -51,6 +52,7 @@ export function start (bot: TelegramBot): void {
             }
             await sendMessage(bot, chat, message, url);
         });
+        console.log(`PUT: /api/lesson-event, ${JSON.stringify({id: lead.data.id, step: 1})}`);
         await axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: lead.data.id, step: 1 },
             // {
         //     httpsAgent: new Agent({ rejectUnauthorized: false }

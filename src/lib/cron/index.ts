@@ -31,9 +31,11 @@ export function getCronJobForNewsletter (bot: TelegramBot): CronJob {
                     sendMessage(bot, chat, message as IMessage, url);
                 }
 
+                console.log(`POST: /api/lead/messenger, ${JSON.stringify({ id: leadInfo.user_id, step: step + 1})}`);
                 axios.post(`${config.adminServiceBaseUrl}/api/lead/messenger`, { id: leadInfo.user_id, step: step + 1},
                     // {httpsAgent: new Agent({ rejectUnauthorized: false })}
                 );
+                console.log(`PUT: /api/lesson-event, ${JSON.stringify({ id: leadInfo.user_id, step: step + 1})}`);
                 axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: leadInfo.user_id, step: step + 1 },
                 //     {
                 //     httpsAgent: new Agent({ rejectUnauthorized: false }),
