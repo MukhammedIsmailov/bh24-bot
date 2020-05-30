@@ -21,11 +21,12 @@ export function botConfig(): TelegramBot {
 }
 
 export function start (bot: TelegramBot): void {
-    bot.onText(/\/start/, async (msg) => {
+    bot.onText(/\/start/, async (msg, match) => {
         const queryParams = msg.text.replace('/start ', '').split('_AND_');
         const chat: IChat = msg.chat;
         console.log('---DEBUG---');
         console.log(JSON.stringify(msg));
+        console.log(JSON.stringify(match));
         console.log('---DEBUG---');
         const data = {
             referId: queryParams[0],
