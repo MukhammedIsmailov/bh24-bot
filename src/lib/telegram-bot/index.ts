@@ -24,11 +24,6 @@ export function start (bot: TelegramBot): void {
     bot.onText(/\/start/, async (msg) => {
         const queryParams = msg.text.replace('/start ', '').split('_AND_');
         const chat: IChat = msg.chat;
-        bot.getChatMember(chat.id, (data) => {
-            console.log('---DEBUG---');
-            console.log(data);
-            console.log('---DEBUG---');
-        });
         const data = {
             referId: queryParams[0],
             country: queryParams[1],
