@@ -41,13 +41,6 @@ export function getCronJobForNewsletter (bot: TelegramBot): CronJob {
                 //     httpsAgent: new Agent({ rejectUnauthorized: false }),
                 // }
                 );
-                if(step === 4) {
-                    axios.put(`${config.adminServiceBaseUrl}/api/event/course-finished`, { userId: leadInfo.user_id },
-                    //     {
-                    //     httpsAgent: new Agent({ rejectUnauthorized: false })
-                    // }
-                    );
-                }
             }
         }
     });
