@@ -45,9 +45,9 @@ export function start (bot: TelegramBot): void {
         // }
         );
 
-        getData()[0].messages.forEach(async (message: IMessage) => {
+        getData()[0].messages.forEach(async (message: any) => {
             let url = null;
-            if (message.type === Type.Text) {
+            if (message.type === Type.TextWithButton) {
                 url = `${config.lessonsPageUrl}?userId=${lead.data.id}&lessonId=1`;
             }
             await sendMessage(bot, chat, message, url);
@@ -65,13 +65,16 @@ export function start (bot: TelegramBot): void {
 export async function sendMessage(bot: TelegramBot, chat: IChat, message: IMessage, url?: string): Promise<void> {
     const type: Type = message.type;
     switch (type) {
-        case Type.Text:
-            setTimeout(() => {
-                sendMessageWithButton(bot, chat, message.message, url);
-            }, 2000);
+        case Type.TextWithButton:
+            await sendMessageWithButton(bot, chat, message.message, url);
             break;
+
+        case Type.Text:
+            await sendText(bot, chat, message.message);
+            break;
+
         case Type.Image:
-            await sendPhoto(bot, chat, readFileSync(join(__dirname, '../../../',  message.message)));
+            await sendPhoto(bot, chat, readFileSync(join(__dirname, '../../../',  message.message)), message.caption);
             break;
 
         case Type.Audio:
@@ -80,12 +83,12 @@ export async function sendMessage(bot: TelegramBot, chat: IChat, message: IMessa
     }
 }
 
-async function sendText(bot: TelegramBot, chat: IChat, message: string, url?: string): Promise<void> {
-    await bot.sendMessage(chat.id, message.replace('/name/', chat.first_name) + '\n' +  url);
+async function sendText(bot: TelegramBot, chat: IChat, message: string): Promise<void> {
+    await bot.sendMessage(chat.id, message.replace('/name/', chat.first_name));
 }
 
-async function sendPhoto(bot: TelegramBot, chat: IChat, message: Buffer | Stream | string): Promise<void> {
-    await bot.sendPhoto(chat.id, message);
+async function sendPhoto(bot: TelegramBot, chat: IChat, message: Buffer | Stream | string, caption?: string): Promise<void> {
+    await bot.sendPhoto(chat.id, message, { caption });
 }
 
 async function sendSticker(bot: TelegramBot, chat: IChat, message: Buffer | Stream | string): Promise<void> {

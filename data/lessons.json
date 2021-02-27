@@ -3,8 +3,13 @@
     "lesson": 1,
     "messages": [
       {
-        "type": "text",
-        "message": "/name/ (Сообщение #1). Сообщение для тестирование системы gohappy"
+        "type": "image",
+        "message": "/data/img/lesson-1.jpg",
+        "caption": "hello world"
+      },
+      {
+        "type": "text_with_button",
+        "message": "hello world"
       }
     ]
   },

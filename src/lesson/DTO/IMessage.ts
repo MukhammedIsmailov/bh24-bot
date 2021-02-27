@@ -1,5 +1,6 @@
 export enum Type {
     Text = 'text',
+    TextWithButton = 'text_with_button',
     Image = 'image',
     File = 'file',
     Audio = 'audio',
@@ -11,4 +12,5 @@ export enum Type {
 export interface IMessage {
     type: Type;
     message: string;
+    caption?: string;
 }

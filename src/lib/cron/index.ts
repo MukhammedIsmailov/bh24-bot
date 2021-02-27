@@ -28,7 +28,7 @@ export function getCronJobForNewsletter (bot: TelegramBot): CronJob {
                     if (message.type === Type.Text) {
                         url = `${config.lessonsPageUrl}?userId=${leadInfo.user_id}&lessonId=${step+1}`;
                     }
-                    sendMessage(bot, chat, message as IMessage, url);
+                    await sendMessage(bot, chat, message as IMessage, url);
                 }
 
                 console.log(`POST: /api/lead/messenger, ${JSON.stringify({ id: leadInfo.user_id, step: step + 1})}`);
