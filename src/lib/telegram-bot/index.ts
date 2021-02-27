@@ -20,6 +20,7 @@ export function botConfig(): TelegramBot {
     return new TelegramBot(token, { polling: true });
 }
 
+
 export function start (bot: TelegramBot): void {
     bot.onText(/\/start/, async (msg) => {
         const queryParams = msg.text.replace('/start ', '').split('_AND_');
@@ -45,13 +46,18 @@ export function start (bot: TelegramBot): void {
         // }
         );
 
-        getData()[0].messages.forEach(async (message: any) => {
+        const messages = getData()[0].messages;
+        const send = (message) => {
             let url = null;
             if (message.type === Type.TextWithButton) {
                 url = `${config.lessonsPageUrl}?userId=${lead.data.id}&lessonId=1`;
             }
-            await sendMessage(bot, chat, message, url);
-        });
+            return sendMessage(bot, chat, message, url)
+        }
+
+        for (const message of messages)
+            await send(message);
+
         console.log(`PUT: /api/lesson-event, ${JSON.stringify({id: lead.data.id, step: 1})}`);
         await axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: lead.data.id, step: 1 },
             // {
