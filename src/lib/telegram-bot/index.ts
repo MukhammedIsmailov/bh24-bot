@@ -93,7 +93,7 @@ async function sendText(bot: TelegramBot, chat: IChat, message: string): Promise
     await bot.sendMessage(chat.id, message.replace('/name/', chat.first_name));
 }
 
-async function sendPhoto(bot: TelegramBot, chat: IChat, message: Buffer | Stream | string, caption?: string): Promise<void> {
+export async function sendPhoto(bot: TelegramBot, chat: IChat, message: Buffer | Stream | string, caption?: string): Promise<void> {
     await bot.sendPhoto(chat.id, message, { caption });
 }
 
