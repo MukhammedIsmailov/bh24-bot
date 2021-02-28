@@ -8,7 +8,7 @@ import {sendMessage} from '../telegram-bot';
 import {IChat} from '../telegram-bot/DTO/IChat';
 import {getData} from '../../../data';
 import {IMessage, Type} from '../../lesson/DTO/IMessage';
-import {Agent} from "https";
+import {getPartner} from "../requests";
 
 const config = getConfig();
 
@@ -25,18 +25,18 @@ export function getCronJobForNewsletter (bot: TelegramBot): CronJob {
                 const chat: IChat = JSON.parse(leadInfo.telegram_info);
                 let url = null;
                 for (const message of data[step].messages) {
-                    if (message.type === Type.Text) {
+                    if (message.type === Type.TextWithButton) {
                         url = `${config.lessonsPageUrl}?userId=${leadInfo.user_id}&lessonId=${step+1}`;
                     }
                     await sendMessage(bot, chat, message as IMessage, url);
                 }
 
                 console.log(`POST: /api/lead/messenger, ${JSON.stringify({ id: leadInfo.user_id, step: step + 1})}`);
-                axios.post(`${config.adminServiceBaseUrl}/api/lead/messenger`, { id: leadInfo.user_id, step: step + 1},
+                await axios.post(`${config.adminServiceBaseUrl}/api/lead/messenger`, { id: leadInfo.user_id, step: step + 1},
                     // {httpsAgent: new Agent({ rejectUnauthorized: false })}
                 );
                 console.log(`PUT: /api/lesson-event, ${JSON.stringify({ id: leadInfo.user_id, step: step + 1})}`);
-                axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: leadInfo.user_id, step: step + 1 },
+                await axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: leadInfo.user_id, step: step + 1 },
                 //     {
                 //     httpsAgent: new Agent({ rejectUnauthorized: false }),
                 // }
