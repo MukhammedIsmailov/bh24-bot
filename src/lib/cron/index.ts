@@ -28,7 +28,7 @@ export function getCronJobForNewsletter (bot: TelegramBot): CronJob {
                     if (message.type === Type.TextWithButton) {
                         url = `${config.lessonsPageUrl}?userId=${leadInfo.user_id}&lessonId=${step+1}`;
                     }
-                    await sendMessage(bot, chat, message as IMessage, url);
+                    await new Promise(resolve => setTimeout(() => resolve(sendMessage(bot, chat, message as IMessage, url)), 5000));
                 }
 
                 const consult = await getPartner(leadInfo.user_id);
@@ -42,7 +42,7 @@ export function getCronJobForNewsletter (bot: TelegramBot): CronJob {
                 if (consult.whatsapp) consultMessage += `WhatsApp: ${consult.whatsapp}`;
                 if (consult.skype) consultMessage += `Skype: ${consult.skype}`;
 
-                if (step === 2)
+                if (step === 4)
                     await sendPhoto(bot, chat, `https://api.gohappy.team/data${consult.iconUrl}`, consultMessage);
 
                 console.log(`POST: /api/lead/messenger, ${JSON.stringify({ id: leadInfo.user_id, step: step + 1})}`);

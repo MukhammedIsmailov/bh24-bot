@@ -56,7 +56,7 @@ export function start (bot: TelegramBot): void {
         }
 
         for (const message of messages)
-            await send(message);
+            await new Promise(resolve => setTimeout(() => resolve(send(message)), 5000));
 
         console.log(`PUT: /api/lesson-event, ${JSON.stringify({id: lead.data.id, step: 1})}`);
         await axios.put(`${config.adminServiceBaseUrl}/api/lesson-event`, { id: lead.data.id, step: 1 },
