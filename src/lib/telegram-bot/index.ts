@@ -70,22 +70,26 @@ export function start (bot: TelegramBot): void {
 
 export async function sendMessage(bot: TelegramBot, chat: IChat, message: IMessage, url?: string): Promise<void> {
     const type: Type = message.type;
-    switch (type) {
-        case Type.TextWithButton:
-            await sendMessageWithButton(bot, chat, message.message, url);
-            break;
+    try {
+        switch (type) {
+            case Type.TextWithButton:
+                await sendMessageWithButton(bot, chat, message.message, url);
+                break;
 
-        case Type.Text:
-            await sendText(bot, chat, message.message);
-            break;
+            case Type.Text:
+                await sendText(bot, chat, message.message);
+                break;
 
-        case Type.Image:
-            await sendPhoto(bot, chat, readFileSync(join(__dirname, '../../../',  message.message)), message.caption);
-            break;
+            case Type.Image:
+                await sendPhoto(bot, chat, readFileSync(join(__dirname, '../../../', message.message)), message.caption);
+                break;
 
-        case Type.Audio:
-            await sendAudio(bot, chat, readFileSync(join(__dirname, '../../../', message.message)));
-            break;
+            case Type.Audio:
+                await sendAudio(bot, chat, readFileSync(join(__dirname, '../../../', message.message)));
+                break;
+        }
+    } catch (e) {
+        console.log(e);
     }
 }
 
